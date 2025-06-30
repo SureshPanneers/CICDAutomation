@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quarterly Sales Report Viewer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 2rem;
+      background: #f9f9f9;
+    }
+    h1 {
+      color: #333;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin-bottom: 20px;
+      cursor: pointer;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+    pre {
+      background-color: #222;
+      color: #0f0;
+      padding: 20px;
+      border-radius: 5px;
+      overflow-x: auto;
+      max-height: 70vh;
+    }
+  </style>
+</head>
+<body>
+  <h1>Quarterly Sales Report</h1>
+  <button onclick="fetchReport()">Get Report</button>
+  <pre id="reportOutput">Click the button to fetch the report...</pre>
+
+  <script>
+    async function fetchReport() {
+      const output = document.getElementById('reportOutput');
+      output.textContent = 'Fetching report...';
+
+      try {
+        const response = await fetch('http://localhost:5000/report');
+        if (!response.ok) {
+          throw new Error(`Server returned ${response.status}`);
+        }
+        const data = await response.json();
+        output.textContent = JSON.stringify(data, null, 2);
+      } catch (error) {
+        output.textContent = 'Error: ' + error.message;
+      }
+    }
+  </script>
+</body>
+</html>
